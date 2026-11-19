@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Baby Shower de Nuestra Princesa</title>
+  <!-- Fuentes elegantes de Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-cream: #fcf9f5;
+      --beige-dark: #b5838d;
+      --beige-light: #f7d6e0;
+      --pink-pastel: #ffb5a7;
+      --pink-dark: #e5989b;
+      --text-main: #6b584c;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #f7f1ed;
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    /* Contenedor tipo pantalla móvil */
+    .phone-container {
+      width: 100%;
+      max-width: 430px;
+      background: linear-gradient(180deg, #fff9f8 0%, #fef2f0 50%, #fff9f8 100%);
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.1);
+    }
+
+    /* --- PANTALLA 1: SOBRE INICIAL --- */
+    #envelope-screen {
+      position: fixed;
+      inset: 0;
+      max-width: 430px;
+      margin: 0 auto;
+      background: linear-gradient(180deg, #fffaf9 0%, #f7e6e8 100%);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    #envelope-screen.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(1.08);
+    }
+
+    .top-decor {
+      font-size: 3.2rem;
+      margin-bottom: 25px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .envelope-wrapper {
+      width: 300px;
+      height: 195px;
+      background: #f9ecee;
+      border-radius: 10px;
+      position: relative;
+      box-shadow: 0 15px 30px rgba(181, 131, 141, 0.25);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #f0d5d8;
+      transition: transform 0.3s ease;
+    }
+
+    .envelope-wrapper:hover {
+      transform: scale(1.03);
+    }
+
+    /* Solapa del sobre */
+    .envelope-flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 150px solid transparent;
+      border-right: 150px solid transparent;
+      border-top: 105px solid #ecd5d8;
+      transform-origin: top;
+      transition: transform 0.6s ease;
+      z-index: 2;
+    }
+
+    .envelope-wrapper.open .envelope-flap {
+      transform: rotateX(180deg);
+    }
+
+    /* Sello de cera */
+    .wax-seal {
+      width: 46px;
+      height: 46px;
+      background: radial-gradient(circle at 30% 30%, #e5989b, #b5838d);
+      border-radius: 50%;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      border: 2px solid #ffd1d6;
+    }
+
+    .tap-hint {
+      margin-top: 22px;
+      font-size: 0.85rem;
+      color: var(--beige-dark);
+      letter-spacing: 0.5px;
+      animation: pulse 1.8s infinite;
+    }
+
+    /* --- CONTENIDO PRINCIPAL --- */
+    .main-content {
+      padding: 35px 22px 60px;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 1s ease 0.3s;
+    }
+
+    .main-content.visible {
+      opacity: 1;
+    }
+
+    .bears-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 2.3rem;
+    }
+
+    .script-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.8rem;
+      color: var(--beige-dark);
+      line-height: 1.1;
+      margin: 10px 0;
+    }
+
+    .subtitle-small {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      color: #b5838d;
+    }
+
+    /* Botón de Música */
+    .music-btn {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: none;
+      background: var(--beige-dark);
+      color: white;
+      font-size: 1.1rem;
+      cursor: pointer;
+      margin: 15px auto 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(181, 131, 141, 0.35);
+      transition: transform 0.2s;
+    }
+
+    .music-btn:active {
+      transform: scale(0.92);
+    }
+
+    .quote {
+      font-size: 0.82rem;
+      font-style: italic;
+      color: #9c767f;
+      margin-bottom: 28px;
+    }
+
+    /* Fotos Polaroid */
+    .polaroid-gallery {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin: 25px 0;
+    }
+
+    .polaroid {
+      background: white;
+      padding: 8px 8px 24px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      border-radius: 4px;
+      width: 46%;
+    }
+
+    .polaroid:first-child {
+      transform: rotate(-4deg);
+    }
+
+    .polaroid:last-child {
+      transform: rotate(4deg);
+    }
+
+    .polaroid img {
+      width: 100%;
+      height: 135px;
+      object-fit: cover;
+      border-radius: 2px;
+      background: #eee;
+    }
+
+    .invite-text {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin: 25px auto;
+      max-width: 310px;
+    }
+
+    /* Caja de Fecha */
+    .date-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin: 25px auto;
+      padding: 15px;
+      border-top: 1px solid var(--beige-light);
+      border-bottom: 1px solid var(--beige-light);
+      max-width: 320px;
+    }
+
+    .date-side {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      width: 85px;
+    }
+
+    .date-center {
+      border-left: 1px solid var(--beige-light);
+      border-right: 1px solid var(--beige-light);
+      padding: 0 18px;
+    }
+
+    .date-center span {
+      display: block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: var(--beige-dark);
+    }
+
+    .date-center strong {
+      font-size: 1.9rem;
+      color: var(--beige-dark);
+    }
+
+    /* Cuenta Regresiva */
+    .countdown-card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px 15px;
+      margin: 20px auto;
+      box-shadow: 0 10px 25px rgba(181, 131, 141, 0.12);
+      border: 1px solid #f9e6ea;
+    }
+
+    .countdown-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #b5838d;
+      margin-bottom: 10px;
+    }
+
+    .timer-grid {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .time-block span {
+      display: block;
+      font-size: 1.7rem;
+      font-weight: 600;
+      color: var(--beige-dark);
+    }
+
+    .time-block small {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      color: #c497a1;
+    }
+
+    /* Secciones generales */
+    .section {
+      margin: 40px 0;
+      padding: 0 10px;
+    }
+
+    .section-icon {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--beige-dark);
+      margin-bottom: 8px;
+    }
+
+    .section-desc {
+      font-size: 0.85rem;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    /* Botones */
+    .btn {
+      display: inline-block;
+      background: var(--beige-dark);
+      color: white;
+      text-decoration: none;
+      padding: 11px 24px;
+      border-radius: 25px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin: 6px;
+      box-shadow: 0 4px 12px rgba(181, 131, 141, 0.25);
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .btn:hover {
+      background: #9c6c77;
+      transform: translateY(-2px);
+    }
+
+    /* Mesa de Regalos / Pañalera */
+    .gift-box {
+      background: white;
+      border-radius: 16px;
+      padding: 20px 15px;
+      margin: 25px auto;
+      box-shadow: 0 8px 20px rgba(181, 131, 141, 0.1);
+      border: 1px solid #f9e6ea;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="phone-container">
+    
+    <!-- PANTALLA 1: SOBRE CERRADO -->
+    <div id="envelope-screen">
+      <div class="top-decor">🍼🌸🎀</div>
+      <div class="envelope-wrapper" id="envelope" onclick="openInvitation()">
+        <div class="envelope-flap"></div>
+        <div class="wax-seal">💗</div>
+      </div>
+      <p class="tap-hint">Haz clic en el sobre para abrir</p>
+    </div>
+
+    <!-- PANTALLA 2: INVITACIÓN COMPLETA -->
+    <div class="main-content" id="main-content">
+      
+      <div class="bears-header">
+        <span>🌸🍼</span>
+        <span>🎀🧸</span>
+      </div>
+
+      <p class="subtitle-small">Baby Shower de</p>
+      <h1 class="script-title">Nuestra Princesa</h1>
+
+      <!-- Audio de fondo -->
+      <audio id="bg-music" loop>
+        <source src="https://youtu.be/vynvegQ9Ecw?list=RDvynvegQ9Ecw" type="audio/mpeg">
+      </audio>
+      <button class="music-btn" id="music-toggle" onclick="toggleMusic()" title="Reproducir / Pausar música">
+        ▶️
+      </button>
+      <p class="quote">Una nueva estrellita llega a iluminar nuestras vidas...</p>
+
+      <!-- Galería Polaroid -->
+      <div class="polaroid-gallery">
+        <div class="polaroid">
+          <img src="C:\Users\enokj\Desktop\Invi\foto2.jpeg" alt="Foto de pancita o bebé">
+        </div>
+        <div class="polaroid">
+          <img src="C:\Users\enokj\Desktop\Invi\foto1.jpg" alt="Detalles de bebé">
+        </div>
+      </div>
+
+      <p class="invite-text">
+        Queremos celebrar contigo la dulce espera de nuestra hermosa bebé. ¡Acompáñanos a compartir este día tan especial lleno de amor y alegría!
+      </p>
+
+      <!-- Fecha y Hora -->
+      <div class="date-box">
+        <div class="date-side">Sábado</div>
+        <div class="date-center">
+          <span>Noviembre </span>
+          <strong>28</strong>
+        </div>
+        <div class="date-side">3:00 PM</div>
+      </div>
+
+      <!-- Cuenta Regresiva -->
+      <p class="script-title" style="font-size: 2.1rem; margin-top: 25px;">Falta muy poco para conocerla</p>
+      <div class="countdown-card">
+        <div class="countdown-label">Cuenta Regresiva</div>
+        <div class="timer-grid">
+          <div class="time-block">
+            <span id="days">00 </span>
+            <small>Días</small>
+          </div>
+          <span>:</span>
+          <div class="time-block">
+            <span id="hours">00</span>
+            <small>Horas</small>
+          </div>
+          <span>:</span>
+          <div class="time-block">
+            <span id="minutes">00</span>
+            <small>Minutos</small>
+          </div>
+          <span>:</span>
+          <div class="time-block">
+            <span id="seconds">00</span>
+            <small>Segundos</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ubicación -->
+      <div class="section">
+        <div class="section-icon">📍</div>
+        <h2 class="section-title">Ubicación</h2>
+        <p class="section-desc">
+          <strong>Casa Abuelita Vero</strong><br>
+          N64a y OE16
+        </p>
+        <a href="https://maps.app.goo.gl/BwVVxtCmNchtPY9MA" target="_blank" class="btn">Ver Ubicación</a>
+      </div>
+
+      <!-- Lluvia de sobres / Regalos -->
+      <div class="gift-box">
+        <div class="section-icon">🎁</div>
+        <h2 class="section-title">Mesa de Regalos / Lluvia de Sobres</h2>
+        <p class="section-desc" style="margin-bottom: 0;">
+          Tu presencia es nuestro mejor regalo. Si deseas tener un detalle con nuestra bebé, tendremos una lluvia de sobres o puedes consultar nuestra mesa de regalos.
+        </p>
+      </div>
+
+      <!-- Confirmar Asistencia -->
+      <div class="section">
+        <div class="section-icon">✅</div>
+        <h2 class="section-title">Confirmar Asistencia</h2>
+        <p class="section-desc">
+          Por favor, confirma tu asistencia para reservar tu lugar con nosotros.
+        </p>
+        <a href="https://wa.me/593964123753?text=Hola!%20Confirmo%20mi%20asistencia%20al%20Baby%20Shower%20de%20la%20bebé%20🍼" target="_blank" class="btn">Confirmar por WhatsApp</a>
+      </div>
+
+      <!-- Cierre -->
+      <div style="margin-top: 30px;">
+        <span style="font-size: 1.8rem;">🌸</span>
+        <span class="script-title" style="font-size: 2.5rem; margin: 0 12px;">¡Te esperamos!</span>
+        <span style="font-size: 1.8rem;">🎀</span>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // 1. Abrir el sobre sin bloqueos de música
+    function openInvitation() {
+      const envelope = document.getElementById('envelope');
+      const screen = document.getElementById('envelope-screen');
+      const content = document.getElementById('main-content');
+
+      envelope.classList.add('open');
+
+      setTimeout(() => {
+        screen.classList.add('hidden');
+        content.classList.add('visible');
+      }, 650);
+    }
+
+    // 2. Control de música manual
+    function toggleMusic() {
+      const music = document.getElementById('bg-music');
+      const btn = document.getElementById('music-toggle');
+      if (music.paused) {
+        music.play().catch(() => {});
+        btn.innerText = '⏸';
+      } else {
+        music.pause();
+        btn.innerText = '▶️';
+      }
+    }
+
+    // 3. Cuenta regresiva
+    const eventDate = new Date(2026, 10, 28, 0, 0, 0).getTime(); 
+
+    setInterval(() => {
+      const now = new Date().getTime();
+      const distance = eventDate - now;
+
+      if (distance > 0) {
+        const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById('days').innerText = d < 10 ? '0' + d : d;
+        document.getElementById('hours').innerText = h < 10 ? '0' + h : h;
+        document.getElementById('minutes').innerText = m < 10 ? '0' + m : m;
+        document.getElementById('seconds').innerText = s < 10 ? '0' + s : s;
+      }
+    }, 1000);
+  </script>
+ 
+</body>
+</html>
